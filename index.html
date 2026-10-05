@@ -1,185 +1,274 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7세 아이를 위한 놀이 유치원 - 즐거운 키즈 놀이 세상</title>
-    <meta name="description" content="7세 아이와 함께 즐길 수 있는 신나는 실내 놀이, 만들기, 과학 실험, 어린이 체조, 전래 놀이 등의 유튜브 영상을 모아 제공하는 키즈 놀이 웹앱입니다.">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nunito:wght@600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>반병현 AI & 파이썬 미디어 아카이브 | Ban Byung-hyun Video Hub</title>
+  <meta name="description" content="AI 개발자 및 작가 반병현의 챗GPT, 생성형 AI 트렌드, 파이썬 자동화, 코파일럿, 강연 및 인터뷰 영상을 한곳에서 모아보는 웹 앱입니다.">
+  <meta name="keywords" content="반병현, 반병현 유튜브, 챗GPT, 생성형AI, 파이썬, 코파일럿, 바이브코딩, AI강연, 인프런 반병현">
+  
+  <!-- Google Fonts: Inter & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-child-reaching"></i>
-                </div>
-                <div class="logo-text">
-                    <h1>7세 놀이세상</h1>
-                    <span>아빠엄마와 신나게!</span>
-                </div>
-            </div>
 
-            <nav class="nav-menu">
-                <button class="nav-btn active" data-category="all">
-                    <i class="fa-solid fa-border-all"></i>
-                    <span>전체 놀이 모음</span>
-                </button>
-                <button class="nav-btn" data-category="favorites">
-                    <i class="fa-solid fa-heart" style="color: #ff6b6b;"></i>
-                    <span>내가 찜한 영상</span>
-                    <span class="badge" id="fav-count">0</span>
-                </button>
-                <button class="nav-btn" data-category="craft">
-                    <i class="fa-solid fa-scissors" style="color: #ff9f43;"></i>
-                    <span>만들기 & 종이접기</span>
-                </button>
-                <button class="nav-btn" data-category="physical">
-                    <i class="fa-solid fa-child" style="color: #54a0ff;"></i>
-                    <span>몸놀이 & 어린이체조</span>
-                </button>
-                <button class="nav-btn" data-category="science">
-                    <i class="fa-solid fa-flask" style="color: #1dd1a1;"></i>
-                    <span>신기한 과학실험</span>
-                </button>
-                <button class="nav-btn" data-category="boardgame">
-                    <i class="fa-solid fa-dice" style="color: #f368e0;"></i>
-                    <span>실내 보드게임 & 규칙</span>
-                </button>
-                <button class="nav-btn" data-category="music">
-                    <i class="fa-solid fa-music" style="color: #ff9ff3;"></i>
-                    <span>율동 & 신나는 동요</span>
-                </button>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="timer-widget">
-                    <div class="timer-header">
-                        <i class="fa-solid fa-hourglass-half"></i>
-                        <span>시청 약속 타이머</span>
-                    </div>
-                    <div class="timer-display" id="timer-display">30:00</div>
-                    <div class="timer-controls">
-                        <button id="btn-timer-15" class="btn-chip">+15분</button>
-                        <button id="btn-timer-30" class="btn-chip active">+30분</button>
-                        <button id="btn-timer-toggle" class="btn-timer-action"><i class="fa-solid fa-play"></i> 시작</button>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Top Header & Search Bar -->
-            <header class="top-bar">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="search-input" placeholder="어떤 놀이를 하고 싶나요? (예: 종이비행기, 풍선, 체조...)">
-                    <button id="clear-search" class="clear-btn hidden"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-
-                <div class="random-play-btn">
-                    <button id="btn-random-play" class="btn-pulse">
-                        <i class="fa-solid fa-dice-five"></i>
-                        <span>오늘 무슨 놀이할까? (랜덤 추천)</span>
-                    </button>
-                </div>
-            </header>
-
-            <!-- Hero Banner -->
-            <section class="hero-banner">
-                <div class="hero-content">
-                    <span class="hero-tag">🎉 7세 맞춤형 놀이 가이드</span>
-                    <h2>오늘 아이와 함께 어떤 추억을 만들까요?</h2>
-                    <p>소근육발달 종이접기부터 에너지 발산 신체놀이까지! 7세 놀이 전문 영상을 큐레이션했습니다.</p>
-                </div>
-                <div class="hero-decoration">
-                    <i class="fa-solid fa-shapes bg-shape shape1"></i>
-                    <i class="fa-solid fa-star bg-shape shape2"></i>
-                    <i class="fa-solid fa-cloud bg-shape shape3"></i>
-                </div>
-            </section>
-
-            <!-- Video Grid Header -->
-            <div class="section-header">
-                <h3 id="current-category-title">전체 놀이 모음 <span class="count-badge" id="video-count">0</span></h3>
-                <div class="filter-tags" id="tag-filters">
-                    <button class="tag-chip active" data-tag="all">전체</button>
-                    <button class="tag-chip" data-tag="준비물소량">✂️ 준비물 간단</button>
-                    <button class="tag-chip" data-tag="실내놀이">🏠 좁은 공간 OK</button>
-                    <button class="tag-chip" data-tag="인기">🔥 최고 인기</button>
-                    <button class="tag-chip" data-tag="집콕">🌧️ 비오는 날 추천</button>
-                </div>
-            </div>
-
-            <!-- Video Grid -->
-            <div class="video-grid" id="video-grid">
-                <!-- Dynamically Populated Cards -->
-            </div>
-
-            <!-- Empty State -->
-            <div class="empty-state hidden" id="empty-state">
-                <i class="fa-solid fa-ghost"></i>
-                <h3>찾으시는 영상이 없어요!</h3>
-                <p>다른 검색어를 입력하거나 카테고리를 변경해 보세요.</p>
-                <button class="btn-reset" id="btn-reset-filters">모든 필터 초기화</button>
-            </div>
-        </main>
-    </div>
-
-    <!-- Video Modal / Player -->
-    <div class="modal-overlay hidden" id="video-modal">
-        <div class="modal-container">
-            <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
-            <div class="video-player-wrapper">
-                <iframe id="youtube-iframe" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="modal-info">
-                <div class="modal-header-row">
-                    <span class="modal-category" id="modal-category">만들기 & 종이접기</span>
-                    <div class="modal-action-btns">
-                        <a id="modal-yt-direct" href="#" target="_blank" class="yt-direct-btn">
-                            <i class="fa-brands fa-youtube"></i> 유튜브 앱/웹에서 보기
-                        </a>
-                        <button class="fav-toggle-btn" id="modal-fav-btn">
-                            <i class="fa-regular fa-heart"></i> <span>찜하기</span>
-                        </button>
-                    </div>
-                </div>
-                <h2 id="modal-title">영상 제목이 들어갑니다</h2>
-                <div class="modal-tags" id="modal-tags">
-                    <!-- Tags -->
-                </div>
-                <div class="parent-tip-card">
-                    <div class="tip-header">
-                        <i class="fa-solid fa-lightbulb"></i>
-                        <strong>엄마·아빠를 위한 놀이 꿀팁 & 지도 포인트</strong>
-                    </div>
-                    <p id="modal-parent-tip">영상 내용을 들어보기 전에 아이와 함께 목표를 정해보세요!</p>
-                </div>
-            </div>
+  <!-- Top Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <div class="logo-icon">
+          <i class="fa-solid fa-play"></i>
         </div>
-    </div>
-
-    <!-- Timer Overlay (Time Over Alert) -->
-    <div class="modal-overlay hidden" id="timer-alert-modal">
-        <div class="alert-box">
-            <div class="alert-icon">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-            </div>
-            <h2>약속한 시청 시간이 끝났어요!</h2>
-            <p>이제 눈을 휴식하고, 영상을 보고 배운 놀이를 직접 해볼 시간이에요! 🎨🤸</p>
-            <button class="btn-primary" id="btn-close-timer-alert">네! 놀러 갈게요!</button>
+        <div class="logo-text">
+          <span class="logo-title">반병현<span class="highlight">TV Hub</span></span>
+          <span class="logo-subtitle">AI & Automation Video Archive</span>
         </div>
+      </a>
+
+      <div class="nav-actions">
+        <button id="bookmarkToggleBtn" class="nav-btn bookmark-btn" title="북마크 목록 보기">
+          <i class="fa-solid fa-bookmark"></i>
+          <span>내 저장목록</span>
+          <span id="bookmarkCountBadge" class="badge">0</span>
+        </button>
+
+        <button id="themeToggleBtn" class="nav-btn theme-btn" title="다크/라이트 모드 전환">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero Profile Section -->
+  <section class="hero-section">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-container">
+      <div class="profile-card">
+        <div class="profile-avatar-wrapper">
+          <div class="avatar-ring"></div>
+          <img src="https://img.youtube.com/vi/HLOLuA3ia4V/hqdefault.jpg" alt="반병현 작가/개발자" class="profile-avatar" id="authorAvatar">
+          <span class="verified-badge" title="AI 개발자 & 저자 인증"><i class="fa-solid fa-check"></i></span>
+        </div>
+        
+        <div class="profile-info">
+          <div class="profile-badge-row">
+            <span class="tag-pill gradient-pill"><i class="fa-solid fa-brain"></i> AI 개발자 & 작가</span>
+            <span class="tag-pill outline-pill"><i class="fa-solid fa-graduation-cap"></i> KAIST 바이오 및 뇌공학과</span>
+            <span class="tag-pill outline-pill"><i class="fa-solid fa-book"></i> 《챗GPT: 특이점》 저자</span>
+          </div>
+
+          <h1 class="profile-name">반병현 <span class="profile-subname">(Ban Byung-hyun)</span></h1>
+          <p class="profile-bio">
+            파이썬 업무 자동화부터 생성형 AI 트렌드, 코파일럿(Copilot) 실무 테크닉, 바이브 코딩까지! 
+            80여 편의 저서와 논문, 특허를 출간한 AI 전문가 반병현의 강연, 인터뷰, 유튜브 영상을 모아서 편하게 시청하세요.
+          </p>
+
+          <div class="profile-links">
+            <a href="https://www.youtube.com/@half_bottle" target="_blank" rel="noopener noreferrer" class="social-btn youtube-link">
+              <i class="fa-brands fa-youtube"></i> 공식 유튜브 (@half_bottle)
+            </a>
+            <a href="https://www.inflearn.com/users/1040535/@bhban" target="_blank" rel="noopener noreferrer" class="social-btn inflearn-link">
+              <i class="fa-solid fa-laptop-code"></i> 인프런 강의
+            </a>
+            <a href="https://search.shopping.naver.com/book/search?query=%EB%B0%98%EB%B3%91%ED%98%84" target="_blank" rel="noopener noreferrer" class="social-btn book-link">
+              <i class="fa-solid fa-book-open"></i> 주요 저서 보기
+            </a>
+          </div>
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat-box">
+            <span class="stat-number" id="totalVideoCount">0</span>
+            <span class="stat-label">큐레이션 영상</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="totalCategoryCount">6</span>
+            <span class="stat-label">카테고리</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="totalViewsDisplay">120만+</span>
+            <span class="stat-label">총 조회수</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls Container: Search & Filters -->
+  <main class="main-container">
+    <div class="controls-wrapper">
+      
+      <!-- Search Box & Direct YouTube Button -->
+      <div class="search-bar-row">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="searchInput" placeholder="제목, 키워드(예: 챗GPT, 파이썬, 코파일럿, 2026, 강연), 태그 검색..." autocomplete="off">
+          <button id="clearSearchBtn" class="clear-search-btn" title="검색어 지우기">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <a href="https://www.youtube.com/results?search_query=%EB%B0%98%EB%B3%91%ED%98%84" target="_blank" rel="noopener noreferrer" class="external-search-btn">
+          <i class="fa-brands fa-youtube"></i> 유튜브 실시간 직검색
+        </a>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-filters-container">
+        <div class="category-pills" id="categoryPills">
+          <button class="cat-pill active" data-category="all">
+            <i class="fa-solid fa-border-all"></i> 전체보기
+          </button>
+          <button class="cat-pill" data-category="ai">
+            <i class="fa-solid fa-robot"></i> AI & 챗GPT
+          </button>
+          <button class="cat-pill" data-category="python">
+            <i class="fa-brands fa-python"></i> 파이썬 & 자동화
+          </button>
+          <button class="cat-pill" data-category="trend">
+            <i class="fa-solid fa-chart-line"></i> 2026 AI 트렌드 & 강연
+          </button>
+          <button class="cat-pill" data-category="interview">
+            <i class="fa-solid fa-comments"></i> 인터뷰 & 미디어
+          </button>
+          <button class="cat-pill" data-category="copilot">
+            <i class="fa-solid fa-code"></i> 코파일럿 & 툴
+          </button>
+        </div>
+      </div>
+
+      <!-- Secondary Toolbar (Result Count, Filter Toggles, Sort Selector) -->
+      <div class="sub-toolbar">
+        <div class="result-info">
+          <span id="resultCountText">영상 <strong>0</strong>개 검색됨</span>
+          <span id="activeFilterTag" class="active-filter-tag" style="display:none;"></span>
+        </div>
+
+        <div class="sub-controls">
+          <button id="favoriteOnlyToggle" class="fav-toggle-btn">
+            <i class="fa-regular fa-star"></i> 저장한 영상만 보기
+          </button>
+
+          <div class="sort-select-wrapper">
+            <i class="fa-solid fa-arrow-down-short-wide sort-icon"></i>
+            <select id="sortSelect" aria-label="정렬 기준 선택">
+              <option value="latest">최신 등록순</option>
+              <option value="popular">인기 높은순 (조회수)</option>
+              <option value="title">제목순 (가나다)</option>
+              <option value="duration">재생시간 긴순</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <script src="script.js"></script>
+    <!-- Video Cards Grid -->
+    <section class="video-grid" id="videoGrid">
+      <!-- Dynamically generated via script.js -->
+    </section>
+
+    <!-- Empty State Message -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-icon"><i class="fa-solid fa-film"></i></div>
+      <h3>검색 결과가 없습니다</h3>
+      <p>다른 검색어나 필터를 선택해 보세요. 유튜브에서 직접 검색할 수도 있습니다.</p>
+      <div class="empty-actions">
+        <button id="resetFiltersBtn" class="btn btn-primary">필터 초기화</button>
+        <a href="https://www.youtube.com/results?search_query=%EB%B0%98%EB%B3%91%ED%98%84" target="_blank" class="btn btn-secondary">
+          유튜브에서 '반병현' 검색 <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Video Modal / Embedded YouTube Player -->
+  <div class="modal-overlay" id="videoModal" aria-hidden="true">
+    <div class="modal-container">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="모달 닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-body">
+        <div class="video-player-wrapper">
+          <iframe id="modalIframe" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+
+        <div class="modal-content">
+          <div class="modal-header-row">
+            <span class="cat-badge" id="modalCategory">AI</span>
+            <div class="modal-actions-top">
+              <button id="modalBookmarkBtn" class="action-circle-btn" title="북마크 저장">
+                <i class="fa-regular fa-bookmark"></i>
+              </button>
+              <button id="modalShareBtn" class="action-circle-btn" title="링크 복사">
+                <i class="fa-solid fa-share-nodes"></i>
+              </button>
+            </div>
+          </div>
+
+          <h2 class="modal-title" id="modalTitle">영상 제목</h2>
+
+          <div class="modal-meta-row">
+            <span class="channel-info"><i class="fa-solid fa-circle-user"></i> <span id="modalChannel">채널명</span></span>
+            <span class="meta-item"><i class="fa-solid fa-eye"></i> <span id="modalViews">0</span></span>
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> <span id="modalDate">2024.00.00</span></span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> <span id="modalDuration">00:00</span></span>
+          </div>
+
+          <div class="modal-description-box">
+            <h4><i class="fa-solid fa-align-left"></i> 영상 설명 및 핵심 키워드</h4>
+            <p id="modalDescription">영상 상세 설명이 들어갑니다.</p>
+          </div>
+
+          <div class="modal-tags" id="modalTags">
+            <!-- Dynamic tags -->
+          </div>
+
+          <div class="modal-footer-btns">
+            <a href="#" id="modalDirectYoutubeLink" target="_blank" rel="noopener noreferrer" class="btn btn-youtube">
+              <i class="fa-brands fa-youtube"></i> 유튜브에서 원본 열기
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3>반병현 TV Hub</h3>
+        <p>반병현 작가 및 AI 개발자의 주요 영상과 강의를 한눈에 둘러보는 독립적 미디어 아카이브 웹 애플리케이션입니다.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>빠른 이동</h4>
+        <ul>
+          <li><a href="https://www.youtube.com/@half_bottle" target="_blank">공식 유튜브 채널 (@half_bottle)</a></li>
+          <li><a href="https://www.inflearn.com/users/1040535/@bhban" target="_blank">인프런 반병현 프로필</a></li>
+          <li><a href="https://github.com/bhban" target="_blank">GitHub repository</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-info">
+        <p class="copyright">&copy; 2026 반병현 Video Hub. Created with HTML, CSS, JS.</p>
+        <p class="disclaimer">본 페이지의 영상 컨텐츠 저작권은 각 채널 게시자 및 반병현 작가에게 있습니다.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

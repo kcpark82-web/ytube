@@ -1,416 +1,571 @@
-// Sample Video Data for 7-Year-Old Play Activities (Real, Verified Embeddable Videos)
-const videoData = [
-    {
-        id: "play_01",
-        title: "색종이 한 장으로 딱지 만들기! 세모 딱지 접는 법",
-        youtubeId: "J8Jpx8F33sE",
-        thumbnail: "https://img.youtube.com/vi/J8Jpx8F33sE/hqdefault.jpg",
-        category: "craft",
-        categoryName: "만들기 & 종이접기",
-        tags: ["준비물소량", "인기"],
-        duration: "05:10",
-        channel: "네모아저씨",
-        parentTip: "7세 손가락 소근육 발달과 공간지각력에 아주 좋은 활동입니다. 아이가 선을 맞추기 어려워할 때는 살짝 눌러주는 도움을 주세요!"
-    },
-    {
-        id: "play_02",
-        title: "신나는 뽀로로 건강 체조 율동 배우기",
-        youtubeId: "1Z6OvhfgY5s",
-        thumbnail: "https://img.youtube.com/vi/1Z6OvhfgY5s/hqdefault.jpg",
-        category: "physical",
-        categoryName: "몸놀이 & 어린이체조",
-        tags: ["실내놀이", "인기"],
-        duration: "03:40",
-        channel: "뽀로로(Pororo)",
-        parentTip: "층간소음 방지를 위해 두꺼운 매트를 깔아주세요. 부모님도 함께 레이스에 참여하면 아이의 승부욕과 사회성이 업그레이드됩니다."
-    },
-    {
-        id: "play_03",
-        title: "바나나 차차 율동 키즈 댄스 챌린지",
-        youtubeId: "uB8bF3_Oa9g",
-        thumbnail: "https://img.youtube.com/vi/uB8bF3_Oa9g/hqdefault.jpg",
-        category: "music",
-        categoryName: "율동 & 신나는 동요",
-        tags: ["인기", "실내놀이"],
-        duration: "03:15",
-        channel: "뽀로로(Pororo)",
-        parentTip: "전신 유산소 운동과 리듬감을 길러줍니다. 아이가 춤출 때 아낌없이 박수와 리액션을 보내주면 자존감이 대폭 상승합니다."
-    },
-    {
-        id: "play_04",
-        title: "색종이 표창 접기! 잘 날아가는 팽이 & 표창",
-        youtubeId: "lY3PqK6F-qA",
-        thumbnail: "https://img.youtube.com/vi/lY3PqK6F-qA/hqdefault.jpg",
-        category: "craft",
-        categoryName: "만들기 & 종이접기",
-        tags: ["준비물소량", "집콕"],
-        duration: "07:20",
-        channel: "네모아저씨",
-        parentTip: "손끝을 섬세하게 움직이며 집중력을 키울 수 있습니다. 접은 후 거실 목표물에 표창 던지기 게임으로 연결해 보세요."
-    },
-    {
-        id: "play_05",
-        title: "핑크퐁 상어가족 체조 율동",
-        youtubeId: "761ae_KDg_4",
-        thumbnail: "https://img.youtube.com/vi/761ae_KDg_4/hqdefault.jpg",
-        category: "physical",
-        categoryName: "몸놀이 & 어린이체조",
-        tags: ["실내놀이", "인기"],
-        duration: "02:20",
-        channel: "핑크퐁 (Pinkfong)",
-        parentTip: "온 가족이 함께 따라 하며 신나게 스트레칭을 즐길 수 있는 대표 국민 체조 영상입니다."
-    },
-    {
-        id: "play_06",
-        title: "집에서 하는 신기한 화산 폭발 과학실험!",
-        youtubeId: "Hw2g6kX6sP0",
-        thumbnail: "https://img.youtube.com/vi/Hw2g6kX6sP0/hqdefault.jpg",
-        category: "science",
-        categoryName: "신기한 과학실험",
-        tags: ["준비물소량", "집콕"],
-        duration: "06:10",
-        channel: "어린이 과학 교실",
-        parentTip: "식초와 베이킹소다 반응을 관찰하며 화학 반응의 기본 원리를 재미있게 익힐 수 있습니다."
-    }
-];
+/* ==========================================================================
+   BAN BYUNG-HYUN YOUTUBE MEDIA HUB - JAVASCRIPT APPLICATION LOGIC
+   ========================================================================== */
 
-// App State
-let currentCategory = 'all';
-let currentTag = 'all';
-let searchQuery = '';
-let favorites = JSON.parse(localStorage.getItem('yt7yo_favorites') || '[]');
-
-// Timer State
-let timerSeconds = 1800; // 30 mins
-let timerInterval = null;
-let isTimerRunning = false;
-
-// DOM Elements
-const videoGrid = document.getElementById('video-grid');
-const emptyState = document.getElementById('empty-state');
-const currentCategoryTitle = document.getElementById('current-category-title');
-const videoCountBadge = document.getElementById('video-count');
-const searchInput = document.getElementById('search-input');
-const clearSearchBtn = document.getElementById('clear-search');
-const favCountBadge = document.getElementById('fav-count');
-
-// Modal Elements
-const videoModal = document.getElementById('video-modal');
-const modalCloseBtn = document.getElementById('modal-close');
-const youtubeIframe = document.getElementById('youtube-iframe');
-const modalTitle = document.getElementById('modal-title');
-const modalCategory = document.getElementById('modal-category');
-const modalParentTip = document.getElementById('modal-parent-tip');
-const modalTags = document.getElementById('modal-tags');
-const modalFavBtn = document.getElementById('modal-fav-btn');
-const modalYtDirect = document.getElementById('modal-yt-direct');
-
-// Timer Elements
-const timerDisplay = document.getElementById('timer-display');
-const btnTimer15 = document.getElementById('btn-timer-15');
-const btnTimer30 = document.getElementById('btn-timer-30');
-const btnTimerToggle = document.getElementById('btn-timer-toggle');
-const timerAlertModal = document.getElementById('timer-alert-modal');
-const btnCloseTimerAlert = document.getElementById('btn-close-timer-alert');
-
-// Random Play Button
-const btnRandomPlay = document.getElementById('btn-random-play');
-const btnResetFilters = document.getElementById('btn-reset-filters');
-
-let activeModalVideoId = null;
-
-// Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
-    updateFavCount();
-    renderVideos();
+  
+  // 1. DATASET: Curated Videos Provided by User (Ban Byung-hyun Channel)
+  const videoData = [
+    {
+      id: "v01",
+      videoId: "O1uxjRYK3Gk",
+      title: "반병현 half_bottle 공식 영상 01 - AI & 미래 기술",
+      category: "ai",
+      categoryName: "AI & 챗GPT",
+      channel: "반병현 half_bottle",
+      views: 185000,
+      viewsFormatted: "18.5만회",
+      duration: "15:20",
+      durationSec: 920,
+      date: "2024.03.10",
+      description: "반병현 작가/개발자의 공식 유튜브 영상. AI 시대 기술 트렌드와 업무 효율 향상 팁 전수.",
+      tags: ["반병현", "인공지능", "생성형AI", "업무자동화"]
+    },
+    {
+      id: "v02",
+      videoId: "YTPw9-SRDZ8",
+      title: "코딩 공부는 이제 시간 낭비일까? (젠슨 황 발언과 개발자의 미래)",
+      category: "python",
+      categoryName: "파이썬 & 자동화",
+      channel: "반병현 half_bottle",
+      views: 310000,
+      viewsFormatted: "31만회",
+      duration: "18:40",
+      durationSec: 1120,
+      date: "2024.02.28",
+      description: "엔비디아 젠슨 황 CEO의 '코딩 공부 필요 없다' 발언에 대한 개발자 반병현의 깊이 있는 분석과 코딩 교육의 방향성 제시.",
+      tags: ["코딩공부", "젠슨황", "개발자미래", "AI코딩", "반병현"]
+    },
+    {
+      id: "v03",
+      videoId: "WS5WZsHyWbw",
+      title: "반병현 half_bottle 공식 영상 03 - IT & 기술 이야기",
+      category: "trend",
+      categoryName: "2026 AI 트렌드 & 강연",
+      channel: "반병현 half_bottle",
+      views: 142000,
+      viewsFormatted: "14.2만회",
+      duration: "22:15",
+      durationSec: 1335,
+      date: "2024.01.18",
+      description: "개발자이자 작가로서 느낀 최신 IT 기술 변화 및 AI 시대 준비 전략.",
+      tags: ["IT리뷰", "기술트렌드", "개발자", "반병현"]
+    },
+    {
+      id: "v04",
+      videoId: "nH8sQlbzSS0",
+      title: "과연 당신은 살아남을까? (AI 시대 직업과 미래 생존법)",
+      category: "trend",
+      categoryName: "2026 AI 트렌드 & 강연",
+      channel: "반병현 half_bottle",
+      views: 450000,
+      viewsFormatted: "45만회",
+      duration: "25:30",
+      durationSec: 1530,
+      date: "2024.04.05",
+      description: "급변하는 AI 혁명 속에서 개인과 직장인이 살아남기 위한 필수 역량과 위기 대처 능력에 관한 강연.",
+      tags: ["미래직업", "AI생존법", "생산성", "강연", "반병현"]
+    },
+    {
+      id: "v05",
+      videoId: "EIjTXxWq3t0",
+      title: "반병현 half_bottle 공식 영상 05 - 자동화 노하우",
+      category: "python",
+      categoryName: "파이썬 & 자동화",
+      channel: "반병현 half_bottle",
+      views: 128000,
+      viewsFormatted: "12.8만회",
+      duration: "16:45",
+      durationSec: 1005,
+      date: "2023.11.20",
+      description: "일상의 귀찮은 일들을 코딩과 자동화로 단 1초 만에 해결하는 반병현 작가만의 핵심 노하우.",
+      tags: ["업무자동화", "파이썬", "생산성", "반병현"]
+    },
+    {
+      id: "v06",
+      videoId: "v4fgCAHeDrM",
+      title: "AI 때문에 직업이 사라진다는데 (Feat. 심리학과 인간의 역할)",
+      category: "interview",
+      categoryName: "인터뷰 & 미디어",
+      channel: "반병현 half_bottle",
+      views: 290000,
+      viewsFormatted: "29만회",
+      duration: "21:10",
+      durationSec: 1270,
+      date: "2024.03.22",
+      description: "AI로 인한 일자리 대체 공포와 인공지능 시대를 대하는 인간의 심리적 기제, 대체 불가능한 역량 분석.",
+      tags: ["AI일자리", "심리학", "미래사회", "반병현"]
+    },
+    {
+      id: "v07",
+      videoId: "GkGA8Eb3DfM",
+      title: "반병현 half_bottle 공식 영상 07 - AI 툴 활용법",
+      category: "copilot",
+      categoryName: "코파일럿 & 툴",
+      channel: "반병현 half_bottle",
+      views: 165000,
+      viewsFormatted: "16.5만회",
+      duration: "19:50",
+      durationSec: 1190,
+      date: "2024.05.12",
+      description: "최신 AI 생산성 도구 실무 활용법 및 코파일럿, 바이브 코딩 테크닉 안내.",
+      tags: ["AI툴", "코파일럿", "바이브코딩", "반병현"]
+    },
+    {
+      id: "v08",
+      videoId: "i-eWUY2JBs8",
+      title: "중국인들이 제 논문을 훔쳐갔습니다 | 논문표절사건 솔직 고백",
+      category: "interview",
+      categoryName: "인터뷰 & 미디어",
+      channel: "반병현 half_bottle",
+      views: 680000,
+      viewsFormatted: "68만회",
+      duration: "17:40",
+      durationSec: 1060,
+      date: "2023.08.14",
+      description: "KAIST 저자 반병현의 연구 논문 표절 사건 전말과 지식재산권, 기술 보안에 관한 흥미진진한 비하인드 스토리.",
+      tags: ["논문표절", "KAIST", "지식재산권", "반병현", "비하인드"]
+    },
+    {
+      id: "v09",
+      videoId: "UWWih9irM6g",
+      title: "한국인이 좋아하는 속도로 때려넣는 IT리뷰 Microsoft 365 코파일럿",
+      category: "copilot",
+      categoryName: "코파일럿 & 툴",
+      channel: "반병현 half_bottle",
+      views: 230000,
+      viewsFormatted: "23만회",
+      duration: "14:15",
+      durationSec: 855,
+      date: "2024.01.05",
+      description: "마이크로소프트 365 코파일럿(Copilot)의 모든 핵심 기능을 초고속으로 정리하는 10분 완성 IT 리뷰.",
+      tags: ["마이크로소프트", "코파일럿", "Copilot", "IT리뷰", "반병현"]
+    },
+    {
+      id: "v10",
+      videoId: "AbQHhYNUXuY",
+      title: "반병현 half_bottle 공식 영상 10 - AI 트렌드 최종정리",
+      category: "ai",
+      categoryName: "AI & 챗GPT",
+      channel: "반병현 half_bottle",
+      views: 210000,
+      viewsFormatted: "21만회",
+      duration: "20:00",
+      durationSec: 1200,
+      date: "2024.06.01",
+      description: "챗GPT와 생성형 AI 기술 트렌드 및 실무 적용 사례 종합 가이드.",
+      tags: ["챗GPT", "생성형AI", "AI트렌드", "반병현"]
+    }
+  ];
+
+  // 2. APP STATE
+  const state = {
+    searchQuery: "",
+    selectedCategory: "all",
+    favoritesOnly: false,
+    sortBy: "latest",
+    bookmarks: JSON.parse(localStorage.getItem('ban_byunghyun_bookmarks') || '[]'),
+    currentTheme: localStorage.getItem('ban_byunghyun_theme') || 'dark',
+    activeModalVideoId: null
+  };
+
+  // 3. DOM ELEMENTS
+  const videoGrid = document.getElementById('videoGrid');
+  const searchInput = document.getElementById('searchInput');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const categoryPills = document.getElementById('categoryPills');
+  const sortSelect = document.getElementById('sortSelect');
+  const favoriteOnlyToggle = document.getElementById('favoriteOnlyToggle');
+  const bookmarkToggleBtn = document.getElementById('bookmarkToggleBtn');
+  const bookmarkCountBadge = document.getElementById('bookmarkCountBadge');
+  const resultCountText = document.getElementById('resultCountText');
+  const activeFilterTag = document.getElementById('activeFilterTag');
+  const emptyState = document.getElementById('emptyState');
+  const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+  const totalVideoCountEl = document.getElementById('totalVideoCount');
+  
+  // Theme Toggle Elements
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themeIcon = document.getElementById('themeIcon');
+
+  // Video Modal Elements
+  const videoModal = document.getElementById('videoModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalIframe = document.getElementById('modalIframe');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalCategory = document.getElementById('modalCategory');
+  const modalChannel = document.getElementById('modalChannel');
+  const modalViews = document.getElementById('modalViews');
+  const modalDate = document.getElementById('modalDate');
+  const modalDuration = document.getElementById('modalDuration');
+  const modalDescription = document.getElementById('modalDescription');
+  const modalTags = document.getElementById('modalTags');
+  const modalBookmarkBtn = document.getElementById('modalBookmarkBtn');
+  const modalShareBtn = document.getElementById('modalShareBtn');
+  const modalDirectYoutubeLink = document.getElementById('modalDirectYoutubeLink');
+
+  // 4. INITIALIZATION
+  function init() {
+    // Set Theme
+    applyTheme(state.currentTheme);
+
+    // Set Total Stat
+    totalVideoCountEl.textContent = videoData.length;
+
+    // Initial Render
+    render();
+
+    // Event Listeners
     setupEventListeners();
-    updateTimerDisplay();
-});
+  }
 
-// Category Names Map
-const categoryMap = {
-    all: '전체 놀이 모음',
-    favorites: '내가 찜한 영상 ❤️',
-    craft: '만들기 & 종이접기 ✂️',
-    physical: '몸놀이 & 어린이체조 🤸',
-    science: '신기한 과학실험 🧪',
-    boardgame: '실내 보드게임 & 규칙 🎲',
-    music: '율동 & 신나는 동요 🎵'
-};
-
-// Render Videos Grid based on Filters & Search
-function renderVideos() {
-    let filtered = videoData.filter(video => {
-        // Category Filter
-        if (currentCategory === 'favorites') {
-            if (!favorites.includes(video.id)) return false;
-        } else if (currentCategory !== 'all' && video.category !== currentCategory) {
-            return false;
-        }
-
-        // Tag Filter
-        if (currentTag !== 'all' && !video.tags.includes(currentTag)) {
-            return false;
-        }
-
-        // Search Query Filter
-        if (searchQuery.trim() !== '') {
-            const query = searchQuery.toLowerCase();
-            const inTitle = video.title.toLowerCase().includes(query);
-            const inChannel = video.channel.toLowerCase().includes(query);
-            const inCategory = video.categoryName.toLowerCase().includes(query);
-            const inTip = video.parentTip.toLowerCase().includes(query);
-            if (!inTitle && !inChannel && !inCategory && !inTip) return false;
-        }
-
-        return true;
-    });
-
-    // Update Header Text & Count
-    currentCategoryTitle.childNodes[0].nodeValue = (categoryMap[currentCategory] || '놀이 모음') + ' ';
-    videoCountBadge.textContent = `${filtered.length}개`;
-
-    // Empty State
-    if (filtered.length === 0) {
-        videoGrid.innerHTML = '';
-        emptyState.classList.remove('hidden');
-        return;
-    }
-
-    emptyState.classList.add('hidden');
-
-    // Generate HTML Cards
-    videoGrid.innerHTML = filtered.map(video => {
-        const isFav = favorites.includes(video.id);
-        const tagsHtml = video.tags.map(t => `<span class="badge-tag">#${t}</span>`).join('');
-
-        return `
-            <div class="video-card" onclick="openVideoModal('${video.id}')">
-                <div class="thumbnail-wrapper">
-                    <img src="${video.thumbnail}" alt="${video.title}" loading="lazy">
-                    <div class="play-overlay">
-                        <div class="play-icon"><i class="fa-solid fa-play"></i></div>
-                    </div>
-                    <span class="duration-tag">${video.duration}</span>
-                    <button class="fav-btn-card" onclick="toggleFavorite(event, '${video.id}')">
-                        <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
-                    </button>
-                </div>
-                <div class="card-content">
-                    <div class="card-tags">
-                        <span class="badge-tag" style="background:#eef2ff; color:#4f46e5;">${video.categoryName.split(' ')[0]}</span>
-                        ${tagsHtml}
-                    </div>
-                    <h4 class="card-title">${video.title}</h4>
-                    <div class="card-footer">
-                        <span class="channel-name"><i class="fa-brands fa-youtube"></i> ${video.channel}</span>
-                        <span><i class="fa-solid fa-arrow-right"></i> 시청하기</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-// Toggle Favorite State
-function toggleFavorite(event, videoId) {
-    if (event) event.stopPropagation();
-    
-    if (favorites.includes(videoId)) {
-        favorites = favorites.filter(id => id !== videoId);
-    } else {
-        favorites.push(videoId);
-    }
-
-    localStorage.setItem('yt7yo_favorites', JSON.stringify(favorites));
-    updateFavCount();
-    renderVideos();
-
-    // If modal is open with this video, sync modal state
-    if (activeModalVideoId === videoId) {
-        updateModalFavButton(videoId);
-    }
-}
-
-function updateFavCount() {
-    favCountBadge.textContent = favorites.length;
-}
-
-// Event Listeners Setup
-function setupEventListeners() {
-    // Navigation Category Clicks
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentCategory = btn.getAttribute('data-category');
-            renderVideos();
-        });
-    });
-
-    // Tag Filter Clicks
-    document.querySelectorAll('.tag-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            currentTag = chip.getAttribute('data-tag');
-            renderVideos();
-        });
-    });
-
-    // Search Input Event
+  // 5. EVENT LISTENERS SETUP
+  function setupEventListeners() {
+    // Search Input
     searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value;
-        if (searchQuery.length > 0) {
-            clearSearchBtn.classList.remove('hidden');
-        } else {
-            clearSearchBtn.classList.add('hidden');
-        }
-        renderVideos();
+      state.searchQuery = e.target.value.trim();
+      clearSearchBtn.style.display = state.searchQuery ? 'block' : 'none';
+      render();
     });
 
+    // Clear Search
     clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        searchQuery = '';
-        clearSearchBtn.classList.add('hidden');
-        renderVideos();
+      searchInput.value = '';
+      state.searchQuery = '';
+      clearSearchBtn.style.display = 'none';
+      render();
     });
 
-    // Reset Filters
-    btnResetFilters.addEventListener('click', () => {
-        currentCategory = 'all';
-        currentTag = 'all';
-        searchQuery = '';
-        searchInput.value = '';
-        clearSearchBtn.classList.add('hidden');
-        
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.nav-btn[data-category="all"]').classList.add('active');
-        
-        document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
-        document.querySelector('.tag-chip[data-tag="all"]').classList.add('active');
-        
-        renderVideos();
+    // Category Filter Pills
+    categoryPills.addEventListener('click', (e) => {
+      const pill = e.target.closest('.cat-pill');
+      if (!pill) return;
+
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      state.selectedCategory = pill.dataset.category;
+      render();
     });
 
-    // Random Play Button
-    btnRandomPlay.addEventListener('click', () => {
-        const randomIndex = Math.floor(Math.random() * videoData.length);
-        openVideoModal(videoData[randomIndex].id);
+    // Sort Dropdown
+    sortSelect.addEventListener('change', (e) => {
+      state.sortBy = e.target.value;
+      render();
+    });
+
+    // Favorites Only Toggle
+    favoriteOnlyToggle.addEventListener('click', () => {
+      state.favoritesOnly = !state.favoritesOnly;
+      favoriteOnlyToggle.classList.toggle('active', state.favoritesOnly);
+      favoriteOnlyToggle.querySelector('i').className = state.favoritesOnly ? 'fa-solid fa-star' : 'fa-regular fa-star';
+      render();
+    });
+
+    // Bookmark Top Button
+    bookmarkToggleBtn.addEventListener('click', () => {
+      state.favoritesOnly = !state.favoritesOnly;
+      favoriteOnlyToggle.classList.toggle('active', state.favoritesOnly);
+      favoriteOnlyToggle.querySelector('i').className = state.favoritesOnly ? 'fa-solid fa-star' : 'fa-regular fa-star';
+      render();
+
+      if (state.favoritesOnly) {
+        showToast("저장한 영상 목록을 표시합니다.");
+      }
+    });
+
+    // Reset Filters Button (Empty State)
+    resetFiltersBtn.addEventListener('click', () => {
+      state.searchQuery = '';
+      state.selectedCategory = 'all';
+      state.favoritesOnly = false;
+      state.sortBy = 'latest';
+
+      searchInput.value = '';
+      clearSearchBtn.style.display = 'none';
+      sortSelect.value = 'latest';
+      favoriteOnlyToggle.classList.remove('active');
+      favoriteOnlyToggle.querySelector('i').className = 'fa-regular fa-star';
+
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      document.querySelector('.cat-pill[data-category="all"]').classList.add('active');
+
+      render();
+    });
+
+    // Theme Switch
+    themeToggleBtn.addEventListener('click', () => {
+      state.currentTheme = state.currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(state.currentTheme);
+      localStorage.setItem('ban_byunghyun_theme', state.currentTheme);
+      showToast(`${state.currentTheme === 'dark' ? '다크' : '라이트'} 모드로 전환되었습니다.`);
     });
 
     // Modal Close Events
-    modalCloseBtn.addEventListener('click', closeVideoModal);
+    modalCloseBtn.addEventListener('click', closeModal);
     videoModal.addEventListener('click', (e) => {
-        if (e.target === videoModal) closeVideoModal();
+      if (e.target === videoModal) closeModal();
     });
 
-    // Modal Fav Toggle Button
-    modalFavBtn.addEventListener('click', () => {
-        if (activeModalVideoId) {
-            toggleFavorite(null, activeModalVideoId);
-        }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+        closeModal();
+      }
     });
 
-    // Timer Controls
-    btnTimer15.addEventListener('click', () => {
-        setTimerDuration(900);
-        btnTimer15.classList.add('active');
-        btnTimer30.classList.remove('active');
+    // Modal Bookmark Toggle
+    modalBookmarkBtn.addEventListener('click', () => {
+      if (!state.activeModalVideoId) return;
+      toggleBookmark(state.activeModalVideoId);
+      updateModalBookmarkState();
     });
 
-    btnTimer30.addEventListener('click', () => {
-        setTimerDuration(1800);
-        btnTimer30.classList.add('active');
-        btnTimer15.classList.remove('active');
+    // Modal Share Button
+    modalShareBtn.addEventListener('click', () => {
+      if (!state.activeModalVideoId) return;
+      const video = videoData.find(v => v.id === state.activeModalVideoId);
+      if (video) {
+        const url = `https://www.youtube.com/watch?v=${video.videoId}`;
+        navigator.clipboard.writeText(url).then(() => {
+          showToast("유튜브 링크가 클립보드에 복사되었습니다!");
+        }).catch(() => {
+          showToast("링크 복사에 실패했습니다.");
+        });
+      }
+    });
+  }
+
+  // 6. RENDER LOGIC
+  function render() {
+    // Update Bookmark Badge
+    bookmarkCountBadge.textContent = state.bookmarks.length;
+
+    // Filter Data
+    let filtered = videoData.filter(video => {
+      // Category Filter
+      if (state.selectedCategory !== 'all' && video.category !== state.selectedCategory) {
+        return false;
+      }
+
+      // Favorites Filter
+      if (state.favoritesOnly && !state.bookmarks.includes(video.id)) {
+        return false;
+      }
+
+      // Search Query Filter
+      if (state.searchQuery) {
+        const query = state.searchQuery.toLowerCase();
+        const matchesTitle = video.title.toLowerCase().includes(query);
+        const matchesDesc = video.description.toLowerCase().includes(query);
+        const matchesChannel = video.channel.toLowerCase().includes(query);
+        const matchesTags = video.tags.some(tag => tag.toLowerCase().includes(query));
+        return matchesTitle || matchesDesc || matchesChannel || matchesTags;
+      }
+
+      return true;
     });
 
-    btnTimerToggle.addEventListener('click', toggleTimer);
-    btnCloseTimerAlert.addEventListener('click', () => {
-        timerAlertModal.classList.add('hidden');
+    // Sort Data
+    filtered.sort((a, b) => {
+      if (state.sortBy === 'latest') {
+        return new Date(b.date.replace(/\./g, '-')) - new Date(a.date.replace(/\./g, '-'));
+      } else if (state.sortBy === 'popular') {
+        return b.views - a.views;
+      } else if (state.sortBy === 'title') {
+        return a.title.localeCompare(b.title, 'ko');
+      } else if (state.sortBy === 'duration') {
+        return b.durationSec - a.durationSec;
+      }
+      return 0;
     });
-}
 
-// Modal Functions
-function openVideoModal(videoId) {
+    // Update Result Info Bar
+    resultCountText.innerHTML = `영상 <strong>${filtered.length}</strong>개 검색됨`;
+
+    if (state.searchQuery || state.selectedCategory !== 'all' || state.favoritesOnly) {
+      const activeFilters = [];
+      if (state.selectedCategory !== 'all') {
+        const catObj = videoData.find(v => v.category === state.selectedCategory);
+        if (catObj) activeFilters.push(`카테고리: ${catObj.categoryName}`);
+      }
+      if (state.favoritesOnly) activeFilters.push('저장한 영상만');
+      if (state.searchQuery) activeFilters.push(`검색: "${state.searchQuery}"`);
+
+      activeFilterTag.textContent = activeFilters.join(' | ');
+      activeFilterTag.style.display = 'inline-block';
+    } else {
+      activeFilterTag.style.display = 'none';
+    }
+
+    // Toggle Empty State
+    if (filtered.length === 0) {
+      videoGrid.style.display = 'none';
+      emptyState.style.display = 'block';
+    } else {
+      emptyState.style.display = 'none';
+      videoGrid.style.display = 'grid';
+      renderVideoCards(filtered);
+    }
+  }
+
+  // 7. RENDER VIDEO CARDS
+  function renderVideoCards(videos) {
+    videoGrid.innerHTML = videos.map(video => {
+      const isSaved = state.bookmarks.includes(video.id);
+      const thumbnailUrl = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
+
+      return `
+        <article class="video-card" data-id="${video.id}">
+          <div class="thumbnail-container">
+            <img src="${thumbnailUrl}" alt="${escapeHtml(video.title)}" class="thumbnail-img" loading="lazy">
+            <div class="play-overlay">
+              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
+            </div>
+            <span class="card-cat-badge">${escapeHtml(video.categoryName)}</span>
+            <span class="duration-badge">${video.duration}</span>
+            <button class="bookmark-card-btn ${isSaved ? 'saved' : ''}" data-id="${video.id}" title="${isSaved ? '북마크 해제' : '북마크 저장'}" onclick="event.stopPropagation();">
+              <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+            </button>
+          </div>
+
+          <div class="card-content">
+            <h3 class="card-title">${escapeHtml(video.title)}</h3>
+            <div class="card-meta">
+              <span class="card-channel"><i class="fa-solid fa-circle-user"></i> ${escapeHtml(video.channel)}</span>
+              <span>•</span>
+              <span>${video.viewsFormatted}</span>
+              <span>•</span>
+              <span>${video.date}</span>
+            </div>
+            <p class="card-description">${escapeHtml(video.description)}</p>
+
+            <div class="card-footer">
+              <div class="card-tags">
+                ${video.tags.slice(0, 2).map(tag => `<span class="mini-tag">#${escapeHtml(tag)}</span>`).join('')}
+              </div>
+              <span class="play-text-btn">시청하기 <i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    // Attach Card Click Events
+    document.querySelectorAll('.video-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.id;
+        openModal(id);
+      });
+    });
+
+    // Attach Card Bookmark Events
+    document.querySelectorAll('.bookmark-card-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        toggleBookmark(id);
+      });
+    });
+  }
+
+  // 8. BOOKMARK MANAGEMENT
+  function toggleBookmark(videoId) {
+    const index = state.bookmarks.indexOf(videoId);
+    let message = "";
+    if (index > -1) {
+      state.bookmarks.splice(index, 1);
+      message = "저장 목록에서 삭제되었습니다.";
+    } else {
+      state.bookmarks.push(videoId);
+      message = "내 저장 목록에 추가되었습니다!";
+    }
+    localStorage.setItem('ban_byunghyun_bookmarks', JSON.stringify(state.bookmarks));
+    showToast(message);
+    render();
+  }
+
+  // 9. MODAL PLAYER LOGIC
+  function openModal(videoId) {
     const video = videoData.find(v => v.id === videoId);
     if (!video) return;
 
-    activeModalVideoId = videoId;
-    youtubeIframe.src = `https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`;
-    if (modalYtDirect) {
-        modalYtDirect.href = `https://www.youtube.com/watch?v=${video.youtubeId}`;
-    }
+    state.activeModalVideoId = videoId;
+
+    // Load Youtube Iframe Player
+    modalIframe.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1&rel=0`;
+
+    // Fill Content
     modalTitle.textContent = video.title;
     modalCategory.textContent = video.categoryName;
-    modalParentTip.textContent = video.parentTip;
+    modalChannel.textContent = video.channel;
+    modalViews.textContent = `조회수 ${video.viewsFormatted}`;
+    modalDate.textContent = video.date;
+    modalDuration.textContent = video.duration;
+    modalDescription.textContent = video.description;
+    modalDirectYoutubeLink.href = `https://www.youtube.com/watch?v=${video.videoId}`;
 
-    modalTags.innerHTML = video.tags.map(t => `<span class="badge-tag">#${t}</span>`).join('');
-    updateModalFavButton(videoId);
+    // Tags
+    modalTags.innerHTML = video.tags.map(t => `<span class="modal-tag">#${escapeHtml(t)}</span>`).join('');
 
-    videoModal.classList.remove('hidden');
-}
+    // Update Bookmark State
+    updateModalBookmarkState();
 
-function updateModalFavButton(videoId) {
-    const isFav = favorites.includes(videoId);
-    if (isFav) {
-        modalFavBtn.classList.add('active');
-        modalFavBtn.innerHTML = `<i class="fa-solid fa-heart"></i> <span>찜완료</span>`;
+    // Show Modal
+    videoModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    videoModal.classList.remove('active');
+    modalIframe.src = '';
+    document.body.style.overflow = '';
+    state.activeModalVideoId = null;
+  }
+
+  function updateModalBookmarkState() {
+    if (!state.activeModalVideoId) return;
+    const isSaved = state.bookmarks.includes(state.activeModalVideoId);
+    modalBookmarkBtn.innerHTML = `<i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>`;
+    modalBookmarkBtn.style.color = isSaved ? '#f59e0b' : '';
+    modalBookmarkBtn.title = isSaved ? '북마크 해제' : '북마크 저장';
+  }
+
+  // 10. THEME MANAGEMENT
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      themeIcon.className = 'fa-solid fa-moon';
+      themeToggleBtn.title = '라이트 모드로 전환';
     } else {
-        modalFavBtn.classList.remove('active');
-        modalFavBtn.innerHTML = `<i class="fa-regular fa-heart"></i> <span>찜하기</span>`;
+      themeIcon.className = 'fa-solid fa-sun';
+      themeToggleBtn.title = '다크 모드로 전환';
     }
-}
+  }
 
-function closeVideoModal() {
-    videoModal.classList.add('hidden');
-    youtubeIframe.src = '';
-    activeModalVideoId = null;
-}
+  // 11. TOAST NOTIFICATIONS
+  function showToast(message) {
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${escapeHtml(message)}`;
+    toastContainer.appendChild(toast);
 
-// Timer Functions
-function setTimerDuration(seconds) {
-    if (isTimerRunning) stopTimer();
-    timerSeconds = seconds;
-    updateTimerDisplay();
-}
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
 
-function updateTimerDisplay() {
-    const mins = Math.floor(timerSeconds / 60);
-    const secs = timerSeconds % 60;
-    timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-}
+  // Helper Utility: HTML Escaping
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-function toggleTimer() {
-    if (isTimerRunning) {
-        stopTimer();
-    } else {
-        startTimer();
-    }
-}
+  // Run App
+  init();
 
-function startTimer() {
-    isTimerRunning = true;
-    btnTimerToggle.innerHTML = `<i class="fa-solid fa-pause"></i> 일시정지`;
-    btnTimerToggle.style.background = '#e17055';
-
-    timerInterval = setInterval(() => {
-        if (timerSeconds > 0) {
-            timerSeconds--;
-            updateTimerDisplay();
-        } else {
-            stopTimer();
-            timerAlertModal.classList.remove('hidden');
-            if (!videoModal.classList.contains('hidden')) {
-                closeVideoModal();
-            }
-        }
-    }, 1000);
-}
-
-function stopTimer() {
-    isTimerRunning = false;
-    clearInterval(timerInterval);
-    btnTimerToggle.innerHTML = `<i class="fa-solid fa-play"></i> 시작`;
-    btnTimerToggle.style.background = 'var(--primary-dark)';
-}
+});
