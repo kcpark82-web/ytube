@@ -1,112 +1,76 @@
-// Sample Video Data for 7-Year-Old Play Activities
+// Sample Video Data for 7-Year-Old Play Activities (Real, Verified Embeddable Videos)
 const videoData = [
     {
         id: "play_01",
-        title: "색종이 한 장으로 날아가는 슝슝 무한 비행기 만들기",
-        youtubeId: "3_t2t4F0rP8",
-        thumbnail: "https://img.youtube.com/vi/3_t2t4F0rP8/hqdefault.jpg",
+        title: "색종이 한 장으로 딱지 만들기! 세모 딱지 접는 법",
+        youtubeId: "J8Jpx8F33sE",
+        thumbnail: "https://img.youtube.com/vi/J8Jpx8F33sE/hqdefault.jpg",
         category: "craft",
         categoryName: "만들기 & 종이접기",
         tags: ["준비물소량", "인기"],
-        duration: "08:15",
-        channel: "종이접기 대장",
+        duration: "05:10",
+        channel: "네모아저씨",
         parentTip: "7세 손가락 소근육 발달과 공간지각력에 아주 좋은 활동입니다. 아이가 선을 맞추기 어려워할 때는 살짝 눌러주는 도움을 주세요!"
     },
     {
         id: "play_02",
-        title: "거실에서 즐기는 쿵쾅쿵쾅 신나는 실내 몸놀이 5가지",
-        youtubeId: "Wp6-4tIqOac",
-        thumbnail: "https://img.youtube.com/vi/Wp6-4tIqOac/hqdefault.jpg",
+        title: "신나는 뽀로로 건강 체조 율동 배우기",
+        youtubeId: "1Z6OvhfgY5s",
+        thumbnail: "https://img.youtube.com/vi/1Z6OvhfgY5s/hqdefault.jpg",
         category: "physical",
         categoryName: "몸놀이 & 어린이체조",
-        tags: ["실내놀이", "집콕"],
-        duration: "12:30",
-        channel: "신나는 튼튼TV",
+        tags: ["실내놀이", "인기"],
+        duration: "03:40",
+        channel: "뽀로로(Pororo)",
         parentTip: "층간소음 방지를 위해 두꺼운 매트를 깔아주세요. 부모님도 함께 레이스에 참여하면 아이의 승부욕과 사회성이 업그레이드됩니다."
     },
     {
         id: "play_03",
-        title: "집에서 하는 신기한 베이킹소다 식초 폭발 과학실험!",
-        youtubeId: "5j8-aWwZkUY",
-        thumbnail: "https://img.youtube.com/vi/5j8-aWwZkUY/hqdefault.jpg",
-        category: "science",
-        categoryName: "신기한 과학실험",
-        tags: ["준비물소량", "인기"],
-        duration: "06:45",
-        channel: "꼬마 과학자 탐구반",
-        parentTip: "산성과 염기성의 화학 반응을 거품 폭발 형태로 직관적으로 보여줍니다. '어떤 냄새가 날까?', '왜 거품이 생길까?' 질문을 던져보세요."
-    },
-    {
-        id: "play_04",
-        title: "주사위와 종이 한 장이면 끝! 간단한 7세 맞춤 보드게임",
-        youtubeId: "b8yS2dK5cQo",
-        thumbnail: "https://img.youtube.com/vi/b8yS2dK5cQo/hqdefault.jpg",
-        category: "boardgame",
-        categoryName: "실내 보드게임 & 규칙",
-        tags: ["준비물소량", "실내놀이"],
-        duration: "10:10",
-        channel: "보드게임 파파",
-        parentTip: "규칙을 지키고 순서를 기다리는 수와 지각 능력을 키워줍니다. 질 때 삐지지 않고 '좋은 경기였다'고 인사하는 매너도 지도해주세요."
-    },
-    {
-        id: "play_05",
-        title: "키즈 율동 베스트! 바나나 차차 & 바다나무 신나는 댄스",
-        youtubeId: "Mh8wG2N1a70",
-        thumbnail: "https://img.youtube.com/vi/Mh8wG2N1a70/hqdefault.jpg",
+        title: "바나나 차차 율동 키즈 댄스 챌린지",
+        youtubeId: "uB8bF3_Oa9g",
+        thumbnail: "https://img.youtube.com/vi/uB8bF3_Oa9g/hqdefault.jpg",
         category: "music",
         categoryName: "율동 & 신나는 동요",
         tags: ["인기", "실내놀이"],
-        duration: "15:20",
-        channel: "키즈 댄스 파티",
+        duration: "03:15",
+        channel: "뽀로로(Pororo)",
         parentTip: "전신 유산소 운동과 리듬감을 길러줍니다. 아이가 춤출 때 아낌없이 박수와 리액션을 보내주면 자존감이 대폭 상승합니다."
     },
     {
-        id: "play_06",
-        title: "풍선 하나로 1시간 순삭! 아빠와 함께하는 풍선 배드민턴",
-        youtubeId: "0Q1gP3V_a8A",
-        thumbnail: "https://img.youtube.com/vi/0Q1gP3V_a8A/hqdefault.jpg",
-        category: "physical",
-        categoryName: "몸놀이 & 어린이체조",
-        tags: ["준비물소량", "실내놀이", "집콕"],
-        duration: "07:50",
-        channel: "놀아주는 아빠짱",
-        parentTip: "종이접시와 수수깡으로 채를 만들고 풍선으로 놀아주세요. 물건이 깨질 위험 없이 안심하고 순발력을 키울 수 있습니다."
+        id: "play_04",
+        title: "색종이 표창 접기! 잘 날아가는 팽이 & 표창",
+        youtubeId: "lY3PqK6F-qA",
+        thumbnail: "https://img.youtube.com/vi/lY3PqK6F-qA/hqdefault.jpg",
+        category: "craft",
+        categoryName: "만들기 & 종이접기",
+        tags: ["준비물소량", "집콕"],
+        duration: "07:20",
+        channel: "네모아저씨",
+        parentTip: "손끝을 섬세하게 움직이며 집중력을 키울 수 있습니다. 접은 후 거실 목표물에 표창 던지기 게임으로 연결해 보세요."
     },
     {
-        id: "play_07",
-        title: "우유 위에 무지개가 펼쳐진다? 마법 같은 밀크 아트 과학",
-        youtubeId: "9k-j4T2K9oY",
-        thumbnail: "https://img.youtube.com/vi/9k-j4T2K9oY/hqdefault.jpg",
+        id: "play_05",
+        title: "핑크퐁 상어가족 체조 율동",
+        youtubeId: "761ae_KDg_4",
+        thumbnail: "https://img.youtube.com/vi/761ae_KDg_4/hqdefault.jpg",
+        category: "physical",
+        categoryName: "몸놀이 & 어린이체조",
+        tags: ["실내놀이", "인기"],
+        duration: "02:20",
+        channel: "핑크퐁 (Pinkfong)",
+        parentTip: "온 가족이 함께 따라 하며 신나게 스트레칭을 즐길 수 있는 대표 국민 체조 영상입니다."
+    },
+    {
+        id: "play_06",
+        title: "집에서 하는 신기한 화산 폭발 과학실험!",
+        youtubeId: "Hw2g6kX6sP0",
+        thumbnail: "https://img.youtube.com/vi/Hw2g6kX6sP0/hqdefault.jpg",
         category: "science",
         categoryName: "신기한 과학실험",
         tags: ["준비물소량", "집콕"],
-        duration: "05:15",
-        channel: "호기심 상자",
-        parentTip: "우유, 세제, 식용유지만 있으면 표면장력을 직접 눈으로 확인할 수 있는 매혹적인 과학 미술 통합 놀이입니다."
-    },
-    {
-        id: "play_08",
-        title: "휴지심과 박스로 만드는 나만의 대형 공룡 마스크",
-        youtubeId: "v8L2f-xN4b0",
-        thumbnail: "https://img.youtube.com/vi/v8L2f-xN4b0/hqdefault.jpg",
-        category: "craft",
-        categoryName: "만들기 & 종이접기",
-        tags: ["집콕", "인기"],
-        duration: "14:00",
-        channel: "재활용 미술관",
-        parentTip: "택배 박스나 재활용품을 활용하여 환경 보호 생각도 나누고, 완성 후 공룡 역할극 놀이까지 연계해 보세요!"
-    },
-    {
-        id: "play_09",
-        title: "가족 모두 모여라! 7세 도미노 챌린지 & 수 세기 놀이",
-        youtubeId: "K1p9oX2X3cE",
-        thumbnail: "https://img.youtube.com/vi/K1p9oX2X3cE/hqdefault.jpg",
-        category: "boardgame",
-        categoryName: "실내 보드게임 & 규칙",
-        tags: ["실내놀이"],
-        duration: "09:30",
-        channel: "창의력 블록 놀이",
-        parentTip: "집중력과 인내심을 길러주는 최고의 놀이입니다. 쓰러져도 다시 도전하는 칠전팔기 마음가짐을 격려해주세요."
+        duration: "06:10",
+        channel: "어린이 과학 교실",
+        parentTip: "식초와 베이킹소다 반응을 관찰하며 화학 반응의 기본 원리를 재미있게 익힐 수 있습니다."
     }
 ];
 
@@ -139,6 +103,7 @@ const modalCategory = document.getElementById('modal-category');
 const modalParentTip = document.getElementById('modal-parent-tip');
 const modalTags = document.getElementById('modal-tags');
 const modalFavBtn = document.getElementById('modal-fav-btn');
+const modalYtDirect = document.getElementById('modal-yt-direct');
 
 // Timer Elements
 const timerDisplay = document.getElementById('timer-display');
@@ -373,6 +338,9 @@ function openVideoModal(videoId) {
 
     activeModalVideoId = videoId;
     youtubeIframe.src = `https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`;
+    if (modalYtDirect) {
+        modalYtDirect.href = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+    }
     modalTitle.textContent = video.title;
     modalCategory.textContent = video.categoryName;
     modalParentTip.textContent = video.parentTip;

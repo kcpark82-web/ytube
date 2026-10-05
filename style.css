@@ -685,11 +685,29 @@ body {
     padding: 24px;
 }
 
-.modal-header-row {
+.modal-action-btns {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+    gap: 10px;
+}
+
+.yt-direct-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ff0000;
+    color: white;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.yt-direct-btn:hover {
+    background-color: #cc0000;
+    transform: translateY(-1px);
 }
 
 .modal-category {
